@@ -18,11 +18,12 @@ class FlyCsv extends SplFileObject
 
     /**
      * @param string|resource $filename
+     * @param string          $encodeFrom
      * @return FlyCsv
      */
-    public static function openSJis($filename)
+    public static function openSJis($filename, $encodeFrom='SJIS-win')
     {
-        $csv = new self(FlyUtils::tempUtf8($filename, 'SJIS-win'));
+        $csv = new self(FlyUtils::tempUtf8($filename, $encodeFrom));
         $csv->setFlags(SplFileObject::READ_CSV);
         return $csv;
     }

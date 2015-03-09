@@ -38,8 +38,17 @@ foraech($csv as $data) {
 ##### construct or openSJis
 
 newすれば、UTF-8のCSVファイルとして扱う。
+
 SJISのCSVを扱うには```openSJis```メソッドでファイルを開く。
 文字コードを変換したテンポラリファイルを作成して、そのポインターを返す。
+
+```php
+$csv = FileCsv::openSJis($file, $encode);
+```
+
+*   $file: 変換前のファイルパス、あるいはファイルポインター。
+*   $encode: 変換前の文字コード。デフォルトは'SJIS-win'。
+
 
 ##### readHeader()メソッド
 
@@ -75,7 +84,8 @@ try {
     if($upload->fails()) {
         throw new \RuntimeException('upload failed', $upload->getErrorCode());
     }
-    $file = $upload->getFileName();
+    $fp  = $upload->open();
+    $csv = FlyCsv::openSJis($fp);
 
 } catch(\RuntimeException $e) {
     $errorCode = $e->getCode();
@@ -162,21 +172,26 @@ $default
     ->setFrom('from2@example.com', 'from name#2')
     ->setReplyTo('reply@example.com', 'reply to name')
     ->setReturnPath('return@example.com');
-$mailer->setDefault($default)
-$mailer->sendHtml( '<html><h1>HTMLです</h1></html>', function($message) {
-    /** @var \Swift_Message $message */
-    $message->setTo('to@mail.com', 'send-to name');
-});
+
+$mailer
+    ->setDefault($default)
+    ->sendHtml( '<html><h1>HTMLです</h1></html>', function($message) {
+        /** @var \Swift_Message $message */
+        $message->setTo('to@mail.com', 'send-to name');
+    });
 ```
+
+> 文面フッターなどの共通化はテンプレートを用いること。
 
 
 ### 日本語メール（ISO2022-JIS）
 
-最初に```MailerFactory::goJapaneseIso2022();```を呼び出しておくこと。
+最初に```MailerFactory::goJapaneseIso2022();```を呼び出しておく。
 
 ```php
 MailerFactory::goJapaneseIso2022();
 $mailer = MailerFactory::forgeSmtp('loaclhost');
+
 $mailer->sendJis( '日本語JISです', function($message) {
     /** @var \Swift_Message $message */
     $message->setTo('to@mail.com', 'send-to name');
@@ -187,10 +202,21 @@ $mailer->sendJis( '日本語JISです', function($message) {
 
 Mailer今のところ、これだけ。
 
+```php
 MailerFactory::forgeSmtp($host='localhost', $port=25, $security = null, $user=null, $pass=null);
+```
+
+```php
 MailerFactory::forgeNull();
+```
+
+```php
 MailerFactory::forgeFileSpool('/path/to/mail/spool/');
+```
+
+```php
 MailerFactory::forgePhpMailer();
+```
 
 ##### antiFloodプラグイン
 

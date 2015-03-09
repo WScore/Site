@@ -12,7 +12,7 @@ class Mailer
     private $mailer;
 
     /**
-     * @var \Closure
+     * @var MessageDefault
      */
     private $default_call;
 
@@ -25,11 +25,21 @@ class Mailer
     }
 
     /**
-     * @param callable $default
+     * @param MessageDefault $default
+     * @return $this
      */
     public function setDefault($default)
     {
         $this->default_call = $default;
+        return $this;
+    }
+
+    /**
+     * @return MessageDefault
+     */
+    public function getDefault()
+    {
+        return clone($this->default_call);
     }
 
     /**
