@@ -1,5 +1,5 @@
 <?php
-namespace WScore\Basic\File;
+namespace WScore\Site\Files;
 
 use RuntimeException;
 use SplFileObject;

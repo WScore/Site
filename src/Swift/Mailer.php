@@ -1,5 +1,5 @@
 <?php
-namespace WScore\Basic\Swift;
+namespace WScore\Site\Swift;
 
 use Swift_Mailer;
 use Swift_Message;

@@ -1,8 +1,7 @@
 <?php
-namespace WScore\Basic\File;
+namespace WScore\Site\Files;
 
 use League\Flysystem\FilesystemInterface;
-use WScore\Basic\FlyFiles\FlySystems;
 
 class FlyUpload
 {

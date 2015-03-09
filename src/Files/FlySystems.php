@@ -1,5 +1,5 @@
 <?php
-namespace WScore\Basic\FlyFiles;
+namespace WScore\Site\Files;
 
 use Aura\Auth\Adapter\NullAdapter;
 use League\Flysystem\Adapter\Ftp;

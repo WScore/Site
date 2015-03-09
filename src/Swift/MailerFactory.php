@@ -1,5 +1,5 @@
 <?php
-namespace WScore\Basic\Swift;
+namespace WScore\Site\Swift;
 
 use Swift;
 use Swift_DependencyContainer;
@@ -94,24 +94,24 @@ class MailerFactory
     }
 
     /**
-     * @param Mailer $message
+     * @param Mailer $mailer
      * @param int    $threshold
      * @param int    $sleep
      */
-    public static function antiFlood($message, $threshold=99, $sleep=0)
+    public static function antiFlood($mailer, $threshold=99, $sleep=0)
     {
         $plugIn = new Swift_Plugins_AntiFloodPlugin($threshold, $sleep);
-        $message->getMailer()->registerPlugin($plugIn);
+        $mailer->getMailer()->registerPlugin($plugIn);
     }
 
     /**
-     * @param Mailer $message
+     * @param Mailer $mailer
      * @param int    $rate
      * @param int    $mode
      */
-    public static function throttle($message, $rate=10, $mode=Swift_Plugins_ThrottlerPlugin::MESSAGES_PER_MINUTE)
+    public static function throttle($mailer, $rate=10, $mode=Swift_Plugins_ThrottlerPlugin::MESSAGES_PER_MINUTE)
     {
         $plugIn = new Swift_Plugins_ThrottlerPlugin($rate, $mode);
-        $message->getMailer()->registerPlugin($plugIn);
+        $mailer->getMailer()->registerPlugin($plugIn);
     }
 }
