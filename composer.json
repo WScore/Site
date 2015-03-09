@@ -10,7 +10,7 @@
     ],
     "minimum-stability": "dev",
     "require": {
-
+        "swiftmailer/swiftmailer": "@stable"
     },
     "autoload": {
         "psr-4": {
