@@ -1,0 +1,21 @@
+{
+    "name": "wscore/site",
+    "description": "various tools to make a web site.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Asao Kamei",
+            "email": "kamei@workspot.jp"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+
+    },
+    "autoload": {
+        "psr-4": {
+            "WScore\\Site\\": "src/"
+        }
+    }
+
+}
