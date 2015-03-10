@@ -6,7 +6,6 @@ use Swift_DependencyContainer;
 use Swift_FileSpool;
 use Swift_Mailer;
 use Swift_MailTransport;
-use Swift_MemorySpool;
 use Swift_NullTransport;
 use Swift_Plugins_AntiFloodPlugin;
 use Swift_Plugins_ThrottlerPlugin;
