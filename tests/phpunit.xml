@@ -12,6 +12,7 @@
         >
     <testsuites>
         <testsuite name="WScore/Pile Test Suite">
+            <directory>Swift</directory>
             <directory>Enum</directory>
         </testsuite>
     </testsuites>

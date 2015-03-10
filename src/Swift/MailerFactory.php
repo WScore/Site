@@ -6,6 +6,7 @@ use Swift_DependencyContainer;
 use Swift_FileSpool;
 use Swift_Mailer;
 use Swift_MailTransport;
+use Swift_MemorySpool;
 use Swift_NullTransport;
 use Swift_Plugins_AntiFloodPlugin;
 use Swift_Plugins_ThrottlerPlugin;
@@ -23,6 +24,20 @@ class MailerFactory
     public static function forgeNull()
     {
         $transport = Swift_NullTransport::newInstance();
+        $mailer    = Swift_Mailer::newInstance($transport);
+        return new Mailer($mailer);
+    }
+
+    /**
+     * creates a mailer instance that will spool to memory.
+     *
+     * @param DumbSpool $spool
+     * @return Mailer
+     */    
+    public static function forgeDumb(&$spool)
+    {
+        $spool     = new DumbSpool();
+        $transport = Swift_SpoolTransport::newInstance($spool);
         $mailer    = Swift_Mailer::newInstance($transport);
         return new Mailer($mailer);
     }
