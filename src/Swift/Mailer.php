@@ -96,14 +96,14 @@ class Mailer
      * @param string      $text
      * @param null|string $type
      * @param callable    $callable
-     * @param callable    $mailerCallable
+     * @param callable    $preCallable
      * @return int
      */
-    private function send($text, $type, $callable, $mailerCallable=null)
+    private function send($text, $type, $callable, $preCallable=null)
     {
         $message = Swift_Message::newInstance();
-        if($mailerCallable) {
-            $mailerCallable($message);
+        if($preCallable) {
+            $preCallable($message);
         }
         $message->setBody($text, $type);
         if($this->default_call) {

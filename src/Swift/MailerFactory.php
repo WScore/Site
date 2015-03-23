@@ -45,7 +45,7 @@ class MailerFactory
      * creates a mailer instance that will save mail to a file.
      *
      * @param string $path
-     * @return static
+     * @return Mailer
      */
     public static function forgeFileSpool($path)
     {
@@ -58,7 +58,7 @@ class MailerFactory
     /**
      * creates a mailer instance that will send mail using PHP's mail() function.
      *
-     * @return static
+     * @return Mailer
      */
     public static function forgePhpMailer()
     {
@@ -76,7 +76,7 @@ class MailerFactory
      * @param string $security
      * @param string $user
      * @param string $pass
-     * @return static
+     * @return Mailer
      */
     public static function forgeSmtp($host='localhost', $port=25, $security = null, $user=null, $pass=null)
     {
