@@ -9,7 +9,9 @@ class EnumTest extends \PHPUnit_Framework_TestCase
 {
     public function test0()
     {
-        $this->assertEquals('WScore\Site\DateTime\Date', get_class(new Date()));
+        $date = new Date();
+        $this->assertEquals('WScore\Site\DateTime\Date', get_class($date));
+        $this->assertEquals('WScore\Site\DateTime\Compare', get_class($date->is));
     }
     
 }
