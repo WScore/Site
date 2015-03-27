@@ -22,7 +22,7 @@ namespace WScore\Site\DateTime;
  * @property-read integer $dayOfYear 0 through 365
  * @property-read integer $weekOfYear ISO-8601 week number of year, weeks starting on Monday
  * @property-read integer $daysInMonth number of days in the given month
- *
+ * @property-read Compare $is for comparing date type
  */
 class Date extends \DateTimeImmutable
 {
@@ -62,6 +62,24 @@ class Date extends \DateTimeImmutable
     ];
 
     /**
+     * @var Compare
+     */
+    private $compare;
+
+    // +----------------------------------------------------------------------+
+    //  construction
+    // +----------------------------------------------------------------------+
+    /**
+     * @param string             $time
+     * @param \DateTimeZone|null $timezone
+     */
+    public function __construct($time = "now", $timezone = NULL)
+    {
+        $this->compare = new Compare();
+        parent::__construct($time, $timezone);
+    }
+
+    /**
      * @param null|bool|string $time
      * @return Date
      */
@@ -82,6 +100,7 @@ class Date extends \DateTimeImmutable
         }
         return static::$now;
     }
+    
     // +----------------------------------------------------------------------+
     //  getting properties and output
     // +----------------------------------------------------------------------+
@@ -96,6 +115,10 @@ class Date extends \DateTimeImmutable
     {
         if (array_key_exists($name, $this->properties)) {
             return (int)$this->format($this->properties[$name]);
+        }
+        switch($name) {
+            case 'is':
+                return $this->compare->start($this);
         }
         throw new \InvalidArgumentException;
     }
@@ -115,7 +138,7 @@ class Date extends \DateTimeImmutable
      *
      * @return string
      */
-    public function toDay()
+    public function today()
     {
         return $this->format('Y-m-d');
     }
@@ -196,129 +219,4 @@ class Date extends \DateTimeImmutable
         }
         return $week;
     }
-
-    // +----------------------------------------------------------------------+
-    //  date comparison
-    //  these codes are from Carbon.
-    // +----------------------------------------------------------------------+
-    /**
-     * Determines if the instance is equal to another
-     *
-     * @param  self $dt
-     *
-     * @return boolean
-     */
-    public function eq(self $dt)
-    {
-        return $this == $dt;
-    }
-
-    /**
-     * Determines if the instance is not equal to another
-     *
-     * @param  self $dt
-     *
-     * @return boolean
-     */
-    public function ne(self $dt)
-    {
-        return !$this->eq($dt);
-    }
-
-    /**
-     * Determines if the instance is greater (after) than another
-     *
-     * @param  self $dt
-     *
-     * @return boolean
-     */
-    public function gt(self $dt)
-    {
-        return $this > $dt;
-    }
-
-    /**
-     * Determines if the instance is greater (after) than or equal to another
-     *
-     * @param  self $dt
-     *
-     * @return boolean
-     */
-    public function gte(self $dt)
-    {
-        return $this >= $dt;
-    }
-
-    /**
-     * Determines if the instance is less (before) than another
-     *
-     * @param  self $dt
-     *
-     * @return boolean
-     */
-    public function lt(self $dt)
-    {
-        return $this < $dt;
-    }
-
-    /**
-     * Determines if the instance is less (before) or equal to another
-     *
-     * @param  self $dt
-     *
-     * @return boolean
-     */
-    public function lte(self $dt)
-    {
-        return $this <= $dt;
-    }
-
-    /**
-     * Determines if the instance is between two others
-     *
-     * @param  self    $dt1
-     * @param  self    $dt2
-     * @param  boolean $equal Indicates if a > and < comparison should be used or <= or >=
-     *
-     * @return boolean
-     */
-    public function between(self $dt1, self $dt2, $equal = true)
-    {
-        if ($dt1->gt($dt2)) {
-            $temp = $dt1;
-            $dt1  = $dt2;
-            $dt2  = $temp;
-        }
-
-        if ($equal) {
-            return $this->gte($dt1) && $this->lte($dt2);
-        } else {
-            return $this->gt($dt1) && $this->lt($dt2);
-        }
-    }
-
-    /**
-     * Get the minimum instance between a given instance (default now) and the current instance.
-     *
-     * @param  self $dt
-     *
-     * @return static
-     */
-    public function min(self $dt)
-    {
-        return $this->lt($dt) ? $this : $dt;
-    }
-
-    /**
-     * Get the maximum instance between a given instance (default now) and the current instance.
-     *
-     * @param  self $dt
-     *
-     * @return static
-     */
-    public function max(self $dt)
-    {
-        return $this->gt($dt) ? $this : $dt;
-    }
-
 }
