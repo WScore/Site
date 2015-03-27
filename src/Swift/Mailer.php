@@ -87,8 +87,10 @@ class Mailer
     {
         return $this->send($text, null, $callable, function($message) {
             /** @var Swift_Message $message */
-            $message->setCharset('iso-2022-jp');
-            $message->setEncoder( new \Swift_Mime_ContentEncoder_PlainContentEncoder( '7bit' ) );
+            $message
+                ->setCharset('iso-2022-jp')
+                ->setEncoder( new \Swift_Mime_ContentEncoder_PlainContentEncoder( '7bit' ) )
+                ->setMaxLineLength(0);
         });
     }
 
