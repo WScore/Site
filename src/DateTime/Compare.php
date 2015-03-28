@@ -109,7 +109,7 @@ class Compare
      */
     public function between(Date $dt1, Date $dt2, $equal = true)
     {
-        if ($dt1->gt($dt2)) {
+        if ($dt1->is->gt($dt2)) {
             $temp = $dt1;
             $dt1  = $dt2;
             $dt2  = $temp;
