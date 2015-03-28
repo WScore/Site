@@ -1,7 +1,7 @@
 <?php
 namespace tests\DateTime;
 
-use WScore\Site\DateTime\Date;
+use WScore\Site\DateTime\DateTime;
 
 require_once(dirname(__DIR__) . '/autoloader.php');
 
@@ -9,8 +9,8 @@ class DateTest extends \PHPUnit_Framework_TestCase
 {
     public function test0()
     {
-        $date = new Date();
-        $this->assertEquals('WScore\Site\DateTime\Date', get_class($date));
+        $date = new DateTime();
+        $this->assertEquals('WScore\Site\DateTime\DateTime', get_class($date));
     }
 
     /**
@@ -19,21 +19,21 @@ class DateTest extends \PHPUnit_Framework_TestCase
     function now_returns_same_object()
     {
         // calling now() returns the same Date object.
-        $d0 = Date::now();
-        $d1 = Date::now();
+        $d0 = DateTime::now();
+        $d1 = DateTime::now();
         $this->assertSame($d0, $d1);
 
         // call now() returns the new Date with current time.
-        $d2 = Date::now(true);
+        $d2 = DateTime::now(true);
         $this->assertNotSame($d0, $d2);
 
         // specifying $time will return a new Date object.
-        $d3 = Date::now('2015-03-28 12:23:34');
+        $d3 = DateTime::now('2015-03-28 12:23:34');
         $this->assertNotSame($d0, $d3);
 
         // specifying false resets the date.
-        $dn = Date::now(false);
-        $d4 = Date::now();
+        $dn = DateTime::now(false);
+        $d4 = DateTime::now();
         $this->assertNull($dn);
         $this->assertNotSame($d0, $d4);
     }
@@ -43,7 +43,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
      */
     function Date_is_immutable()
     {
-        $d0 = new Date('2015-03-28 12:23:34');
+        $d0 = new DateTime('2015-03-28 12:23:34');
         $d1 = $d0->modify('0 day');
         $this->assertEquals($d0, $d1);
         $this->assertNotSame($d0, $d1);
@@ -54,7 +54,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
      */
     function accessing_by_property()
     {
-        $d = new Date('1989-01-08 12:23:34');
+        $d = new DateTime('1989-01-08 12:23:34');
         $this->assertEquals( '1989', $d->year);
         $this->assertEquals( '1',  $d->month);
         $this->assertEquals( '8',  $d->day);
@@ -72,7 +72,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
      */
     function genGou()
     {
-        $h = new Date('1989-01-08');
+        $h = new DateTime('1989-01-08');
         $this->assertEquals( '1989-01-08 00:00:00', (string) $h);
         $this->assertEquals( '平成', $h->format('%G'));
         $this->assertEquals( '昭和', $h->modify('-1 day')->format('%G'));
@@ -82,7 +82,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals( '平成', $h->jaGenGou());
         $this->assertEquals( '昭和', $h->modify('-1 day')->jaGenGou());
 
-        $h = new Date('1868-01-25');
+        $h = new DateTime('1868-01-25');
         $this->assertEquals( '明治', $h->format('%G'));
         $this->assertEquals( 1868, $h->modify('-1 day')->format('%Y'));
         $this->assertEquals( '', $h->modify('-1 day')->format('%G'));
@@ -94,7 +94,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
      */
     function non_existing_property_throws_an_exception()
     {
-        $d = new Date();
+        $d = new DateTime();
         /** @noinspection PhpUndefinedFieldInspection */
         $d->badProperty;
     }
@@ -104,7 +104,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
      */
     function format_with_unknown_code()
     {
-        $this->assertEquals('x%x', (new Date())->format('x%x'));
+        $this->assertEquals('x%x', (new DateTime())->format('x%x'));
     }
 
     /**
@@ -112,8 +112,8 @@ class DateTest extends \PHPUnit_Framework_TestCase
      */
     function if_two_dates_are_the_same_date()
     {
-        $d1 = new Date('2015-03-28 01:23:45');
-        $d2 = new Date('2015-03-28 21:23:45');
+        $d1 = new DateTime('2015-03-28 01:23:45');
+        $d2 = new DateTime('2015-03-28 21:23:45');
         $this->assertNotEquals($d1, $d2);
         $this->assertEquals($d1->ymd, $d2->ymd);
         $this->assertEquals($d1->format('Y-m-d'), $d2->toDate('-'));

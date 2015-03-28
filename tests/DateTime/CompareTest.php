@@ -1,7 +1,7 @@
 <?php
 namespace tests\DateTime;
 
-use WScore\Site\DateTime\Date;
+use WScore\Site\DateTime\DateTime;
 
 require_once(dirname(__DIR__) . '/autoloader.php');
 
@@ -9,17 +9,17 @@ class CompareTest extends \PHPUnit_Framework_TestCase
 {
     function test0()
     {
-        $date = new Date();
-        $this->assertEquals('WScore\Site\DateTime\Date', get_class($date));
+        $date = new DateTime();
+        $this->assertEquals('WScore\Site\DateTime\DateTime', get_class($date));
         $this->assertEquals('WScore\Site\DateTime\Compare', get_class($date->is));
     }
 
     /**
-     * @return Date[]
+     * @return DateTime[]
      */
     function getDates()
     {
-        $d = new Date();
+        $d = new DateTime();
         $d1 = $d->modify('1 day');
         $d2 = $d->modify('2 day');
         $d3 = $d->modify('3 day');
@@ -104,7 +104,7 @@ class CompareTest extends \PHPUnit_Framework_TestCase
      */
     function sameDate()
     {
-        /** @var Date $d1 */
+        /** @var DateTime $d1 */
         list($d1) = $this->getDates();
         $d2 = $d1->modify('1 hour');
         $this->assertNotEquals($d1, $d2);

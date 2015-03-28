@@ -4,7 +4,7 @@ namespace WScore\Site\DateTime;
 class Compare
 {
     /**
-     * @var Date
+     * @var DateTime
      */
     private $date;
 
@@ -16,7 +16,7 @@ class Compare
     }
 
     /**
-     * @param Date $date
+     * @param DateTime $date
      * @return Compare
      */
     public function start($date)
@@ -29,11 +29,11 @@ class Compare
     /**
      * Determines if the instance is equal to another
      *
-     * @param  Date $dt
+     * @param  DateTime $dt
      *
      * @return boolean
      */
-    public function eq(Date $dt)
+    public function eq(DateTime $dt)
     {
         return $this->date == $dt;
     }
@@ -41,10 +41,10 @@ class Compare
     /**
      * Determins if the instance is the same date (ignoring time part).
      *
-     * @param Date $dt
+     * @param DateTime $dt
      * @return bool
      */
-    public function sameDate(Date $dt)
+    public function sameDate(DateTime $dt)
     {
         return $this->date->ymd === $dt->ymd;
     }
@@ -52,11 +52,11 @@ class Compare
     /**
      * Determines if the instance is not equal to another
      *
-     * @param  Date $dt
+     * @param  DateTime $dt
      *
      * @return boolean
      */
-    public function ne(Date $dt)
+    public function ne(DateTime $dt)
     {
         return !$this->eq($dt);
     }
@@ -64,11 +64,11 @@ class Compare
     /**
      * Determines if the instance is greater (after) than another
      *
-     * @param  Date $dt
+     * @param  DateTime $dt
      *
      * @return boolean
      */
-    public function gt(Date $dt)
+    public function gt(DateTime $dt)
     {
         return $this->date > $dt;
     }
@@ -76,11 +76,11 @@ class Compare
     /**
      * Determines if the instance is greater (after) than or equal to another
      *
-     * @param  Date $dt
+     * @param  DateTime $dt
      *
      * @return boolean
      */
-    public function gte(Date $dt)
+    public function gte(DateTime $dt)
     {
         return $this->date >= $dt;
     }
@@ -88,11 +88,11 @@ class Compare
     /**
      * Determines if the instance is less (before) than another
      *
-     * @param  Date $dt
+     * @param  DateTime $dt
      *
      * @return boolean
      */
-    public function lt(Date $dt)
+    public function lt(DateTime $dt)
     {
         return $this->date < $dt;
     }
@@ -100,11 +100,11 @@ class Compare
     /**
      * Determines if the instance is less (before) or equal to another
      *
-     * @param  Date $dt
+     * @param  DateTime $dt
      *
      * @return boolean
      */
-    public function lte(Date $dt)
+    public function lte(DateTime $dt)
     {
         return $this->date <= $dt;
     }
@@ -112,13 +112,13 @@ class Compare
     /**
      * Determines if the instance is between two others
      *
-     * @param  Date    $dt1
-     * @param  Date    $dt2
+     * @param  DateTime    $dt1
+     * @param  DateTime    $dt2
      * @param  boolean $equal Indicates if a > and < comparison should be used or <= or >=
      *
      * @return boolean
      */
-    public function between(Date $dt1, Date $dt2, $equal = true)
+    public function between(DateTime $dt1, DateTime $dt2, $equal = true)
     {
         if ($dt1->is->gt($dt2)) {
             $temp = $dt1;
@@ -136,11 +136,11 @@ class Compare
     /**
      * Get the minimum instance between a given instance (default now) and the current instance.
      *
-     * @param  Date $dt
+     * @param  DateTime $dt
      *
-     * @return Date
+     * @return DateTime
      */
-    public function min(Date $dt)
+    public function min(DateTime $dt)
     {
         return $this->lt($dt) ? $this->date : $dt;
     }
@@ -148,11 +148,11 @@ class Compare
     /**
      * Get the maximum instance between a given instance (default now) and the current instance.
      *
-     * @param  Date $dt
+     * @param  DateTime $dt
      *
-     * @return Date
+     * @return DateTime
      */
-    public function max(Date $dt)
+    public function max(DateTime $dt)
     {
         return $this->gt($dt) ? $this->date : $dt;
     }

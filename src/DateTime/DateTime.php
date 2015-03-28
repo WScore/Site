@@ -26,7 +26,7 @@ namespace WScore\Site\DateTime;
  * @property-read integer $daysInMonth number of days in the given month
  * @property-read Compare $is for comparing date type
  */
-class Date extends \DateTimeImmutable
+class DateTime extends \DateTimeImmutable
 {
     /**
      * @var string    default format
@@ -84,7 +84,7 @@ class Date extends \DateTimeImmutable
 
     /**
      * @param null|bool|string $time
-     * @return Date
+     * @return DateTime
      */
     public static function now($time=null)
     {
