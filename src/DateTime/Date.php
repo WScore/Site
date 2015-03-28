@@ -39,10 +39,10 @@ class Date extends \DateTimeImmutable
     private $weeks = ['日', '月', '火', '水', '木', '金', '土'];
 
     private $nenGou = [
-        '明治' => '1868-01-25',
-        '大正' => '1912-07-30',
-        '昭和' => '1926-12-25',
         '平成' => '1989-01-08',
+        '昭和' => '1926-12-25',
+        '大正' => '1912-07-30',
+        '明治' => '1868-01-25',
     ];
 
     private $properties = [
@@ -134,16 +134,6 @@ class Date extends \DateTimeImmutable
     }
 
     /**
-     * Format the instance as date
-     *
-     * @return string
-     */
-    public function today()
-    {
-        return $this->format('Y-m-d');
-    }
-
-    /**
      * 日本の暦に対応。
      * %w -> 短い曜日
      * %W -> 長い曜日
@@ -199,6 +189,9 @@ class Date extends \DateTimeImmutable
         foreach ($this->nenGou as $gou => $start) {
             if ($date >= $start) {
                 $year -= (int)(substr($start, 0, 4) - 1);
+                if($year === 1) {
+                    return '元';
+                }
                 return $year;
             }
         }
@@ -218,5 +211,14 @@ class Date extends \DateTimeImmutable
             $week .= '曜日';
         }
         return $week;
+    }
+
+    /**
+     * @param string $string
+     * @return static
+     */
+    public function modify($string)
+    {
+        return parent::modify($string);
     }
 }
