@@ -11,7 +11,6 @@ namespace WScore\Site\DateTime;
  *
  * @package WScore\Site\DateTime
  *
- * @property-read integer $ymd  Ymd (Year-month-date)
  * @property-read integer $date Y-m-d (Year-month-date)
  * @property-read integer $year
  * @property-read integer $month
@@ -24,6 +23,9 @@ namespace WScore\Site\DateTime;
  * @property-read integer $dayOfYear 0 through 365
  * @property-read integer $weekOfYear ISO-8601 week number of year, weeks starting on Monday
  * @property-read integer $daysInMonth number of days in the given month
+ * @property-read string $ymd  Ymd (Year-month-date)
+ * @property-read string $iso  Y-m-d (Year-month-date in ISO like format)
+ * @property-read string $W3C for HTML5 datetime input element
  * @property-read Compare $is for comparing date type
  * @property-read Diff $diff for calculating difference
  */
@@ -49,7 +51,6 @@ class DateTime extends \DateTimeImmutable
     ];
 
     private $properties = [
-        'ymd'         => 'Ymd',
         'year'        => 'Y',
         'yearIso'     => 'o',
         'month'       => 'n',
@@ -63,6 +64,9 @@ class DateTime extends \DateTimeImmutable
         'weekOfYear'  => 'W',
         'daysInMonth' => 't',
         'timestamp'   => 'U',
+        'ymd'         => 'Ymd',
+        'iso'         => 'Y-m-d',
+        'W3C'         => \DateTime::W3C,
     ];
 
     // +----------------------------------------------------------------------+
@@ -155,6 +159,9 @@ class DateTime extends \DateTimeImmutable
     public function __get($name)
     {
         if (array_key_exists($name, $this->properties)) {
+            if (in_array($name, ['W3C', 'ymd', 'iso'])) {
+                return (string) $this->format($this->properties[$name]);
+            }
             return (int)$this->format($this->properties[$name]);
         }
         switch($name) {

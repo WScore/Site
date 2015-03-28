@@ -54,7 +54,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
      */
     function accessing_by_property()
     {
-        $d = new DateTime('1989-01-08 12:23:34');
+        $d = new DateTime('1989-01-08 12:23:34', new \DateTimeZone('Asia/Tokyo'));
         $this->assertEquals( '1989', $d->year);
         $this->assertEquals( '1',  $d->month);
         $this->assertEquals( '8',  $d->day);
@@ -65,6 +65,9 @@ class DateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals( '7',  $d->dayOfYear);
         $this->assertEquals( '31', $d->daysInMonth);
         $this->assertEquals( '600233014', $d->timestamp);
+        $this->assertEquals( '19890108', $d->ymd);
+        $this->assertEquals( '1989-01-08', $d->iso);
+        $this->assertEquals( '1989-01-08T12:23:34+09:00', $d->W3C);
     }
     
     /**
