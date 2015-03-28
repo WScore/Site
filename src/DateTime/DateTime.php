@@ -25,6 +25,7 @@ namespace WScore\Site\DateTime;
  * @property-read integer $weekOfYear ISO-8601 week number of year, weeks starting on Monday
  * @property-read integer $daysInMonth number of days in the given month
  * @property-read Compare $is for comparing date type
+ * @property-read Diff $diff for calculating difference
  */
 class DateTime extends \DateTimeImmutable
 {
@@ -64,11 +65,6 @@ class DateTime extends \DateTimeImmutable
         'timestamp'   => 'U',
     ];
 
-    /**
-     * @var Compare
-     */
-    private $compare;
-
     // +----------------------------------------------------------------------+
     //  construction
     // +----------------------------------------------------------------------+
@@ -78,7 +74,6 @@ class DateTime extends \DateTimeImmutable
      */
     public function __construct($time = "now", $timezone = NULL)
     {
-        $this->compare = new Compare();
         parent::__construct($time, $timezone);
     }
 
@@ -136,6 +131,17 @@ class DateTime extends \DateTimeImmutable
         return new static($dt->format('Y-m-t 00:00:00'));
     }
 
+    /**
+     * @param int $h
+     * @param int $m
+     * @param int $s
+     * @return static
+     */
+    public static function createTime($h=0, $m=0, $s=0)
+    {
+        return new static("0-0-0 $h:$m:$s");
+    }
+
     // +----------------------------------------------------------------------+
     //  getting properties and output
     // +----------------------------------------------------------------------+
@@ -153,7 +159,9 @@ class DateTime extends \DateTimeImmutable
         }
         switch($name) {
             case 'is':
-                return $this->compare->start($this);
+                return Compare::start($this);
+            case 'diff':
+                return Diff::start($this);
         }
         throw new \InvalidArgumentException;
     }

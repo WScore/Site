@@ -1,6 +1,7 @@
 <?php
 namespace tests\DateTime;
 
+use WScore\Site\DateTime\Compare;
 use WScore\Site\DateTime\DateTime;
 
 require_once(dirname(__DIR__) . '/autoloader.php');
@@ -121,5 +122,21 @@ class CompareTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($d1->is->leapYear());
         $d2 = DateTime::createDate('2021');
         $this->assertFalse($d2->is->leapYear());
+    }
+
+    /**
+     * @test
+     */
+    function use_Compare_directly()
+    {
+        list($d1, $d2, $d3) = $this->getDates();
+
+        // gt, eq, lt
+        $this->assertTrue(Compare::start($d2)->gt($d1));
+        $this->assertTrue(Compare::start($d2)->eq($d2));
+        $this->assertTrue(Compare::start($d2)->lt($d3));
+        $this->assertFalse(Compare::start($d2)->lt($d1));
+        $this->assertFalse(Compare::start($d2)->ne($d2));
+
     }
 }

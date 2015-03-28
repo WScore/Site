@@ -1,12 +1,25 @@
 <?php
 namespace WScore\Site\DateTime;
 
+/**
+ * Class Compare
+ *
+ * inspired by (i.e. some code are from) Carbon.
+ * https://github.com/briannesbitt/Carbon
+
+ * @package WScore\Site\DateTime
+ */
 class Compare
 {
     /**
      * @var DateTime
      */
     private $date;
+
+    /**
+     * @var static   immutable object
+     */
+    private static $self;
 
     /**
      * 
@@ -19,9 +32,12 @@ class Compare
      * @param DateTime $date
      * @return Compare
      */
-    public function start($date)
+    public static function start($date)
     {
-        $new = clone($this);
+        if (!static::$self) {
+            static::$self = new static;
+        }
+        $new       = clone(static::$self);
         $new->date = $date;
         return $new;
     }
