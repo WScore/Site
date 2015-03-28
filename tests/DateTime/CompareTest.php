@@ -98,4 +98,17 @@ class CompareTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($d2, $d2->is->max($d1));
         $this->assertSame($d3, $d2->is->max($d3));
     }
+
+    /**
+     * @test
+     */
+    function sameDate()
+    {
+        /** @var Date $d1 */
+        list($d1) = $this->getDates();
+        $d2 = $d1->modify('1 hour');
+        $this->assertNotEquals($d1, $d2);
+        $this->assertEquals($d1->ymd, $d2->ymd);
+        $this->assertTrue($d1->is->sameDate($d2));
+    }
 }

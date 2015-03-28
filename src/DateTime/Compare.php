@@ -39,6 +39,17 @@ class Compare
     }
 
     /**
+     * Determins if the instance is the same date (ignoring time part).
+     *
+     * @param Date $dt
+     * @return bool
+     */
+    public function sameDate(Date $dt)
+    {
+        return $this->date->ymd === $dt->ymd;
+    }
+
+    /**
      * Determines if the instance is not equal to another
      *
      * @param  Date $dt

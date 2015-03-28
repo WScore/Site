@@ -11,6 +11,8 @@ namespace WScore\Site\DateTime;
  *
  * @package WScore\Site\DateTime
  *
+ * @property-read integer $ymd  Ymd (Year-month-date)
+ * @property-read integer $date Y-m-d (Year-month-date)
  * @property-read integer $year
  * @property-read integer $month
  * @property-read integer $day
@@ -46,6 +48,7 @@ class Date extends \DateTimeImmutable
     ];
 
     private $properties = [
+        'ymd'         => 'Ymd',
         'year'        => 'Y',
         'yearIso'     => 'o',
         'month'       => 'n',
@@ -134,6 +137,15 @@ class Date extends \DateTimeImmutable
     public function __toString()
     {
         return $this->format(static::$format);
+    }
+
+    /**
+     * @param string $sep
+     * @return string
+     */
+    public function toDate($sep='/')
+    {
+        return $this->format(implode($sep,['Y','m','d']));
     }
 
     /**

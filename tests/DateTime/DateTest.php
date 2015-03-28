@@ -106,4 +106,16 @@ class DateTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals('x%x', (new Date())->format('x%x'));
     }
+
+    /**
+     * @test
+     */
+    function if_two_dates_are_the_same_date()
+    {
+        $d1 = new Date('2015-03-28 01:23:45');
+        $d2 = new Date('2015-03-28 21:23:45');
+        $this->assertNotEquals($d1, $d2);
+        $this->assertEquals($d1->ymd, $d2->ymd);
+        $this->assertEquals($d1->format('Y-m-d'), $d2->toDate('-'));
+    }
 }
