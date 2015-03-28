@@ -17,6 +17,42 @@ class EnumTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    function now_returns_same_object()
+    {
+        // calling now() returns the same Date object.
+        $d0 = Date::now();
+        $d1 = Date::now();
+        $this->assertSame($d0, $d1);
+
+        // call now() returns the new Date with current time.
+        $d2 = Date::now(true);
+        $this->assertNotSame($d0, $d2);
+
+        // specifying $time will return a new Date object.
+        $d3 = Date::now('2015-03-28 12:23:34');
+        $this->assertNotSame($d0, $d3);
+
+        // specifying false resets the date.
+        $dn = Date::now(false);
+        $d4 = Date::now();
+        $this->assertNull($dn);
+        $this->assertNotSame($d0, $d4);
+    }
+
+    /**
+     * @test
+     */
+    function Date_is_immutable()
+    {
+        $d0 = new Date('2015-03-28 12:23:34');
+        $d1 = $d0->modify('0 day');
+        $this->assertEquals($d0, $d1);
+        $this->assertNotSame($d0, $d1);
+    }
+
+    /**
+     * @test
+     */
     function accessing_by_property()
     {
         $d = new Date('1989-01-08 12:23:34');
@@ -49,6 +85,26 @@ class EnumTest extends \PHPUnit_Framework_TestCase
 
         $h = new Date('1868-01-25');
         $this->assertEquals( '明治', $h->format('%G'));
+        $this->assertEquals( 1868, $h->modify('-1 day')->format('%Y'));
         $this->assertEquals( '', $h->modify('-1 day')->format('%G'));
+    }
+
+    /**
+     * @test
+     * @expectedException \InvalidArgumentException
+     */
+    function non_existing_property_throws_an_exception()
+    {
+        $d = new Date();
+        /** @noinspection PhpUndefinedFieldInspection */
+        $d->badProperty;
+    }
+
+    /**
+     * @test
+     */
+    function format_with_unknown_code()
+    {
+        $this->assertEquals('x%x', (new Date())->format('x%x'));
     }
 }

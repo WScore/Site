@@ -85,8 +85,11 @@ class Date extends \DateTimeImmutable
      */
     public static function now($time=null)
     {
-        static::$now;
-        if($time === true) {
+        if($time === false) {
+            // reset $now.
+            static::$now = null;
+
+        } elseif($time === true) {
             // regenerate now.
             static::$now = new static;
 
@@ -156,7 +159,7 @@ class Date extends \DateTimeImmutable
                 case 'G': // 元号
                     return $this->jaGenGou();
             }
-            return '';
+            return $w[0];
         }, $format);
         return parent::format($format);
     }
@@ -195,7 +198,7 @@ class Date extends \DateTimeImmutable
                 return $year;
             }
         }
-        return '';
+        return $year;
     }
 
     /**
