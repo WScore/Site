@@ -118,4 +118,25 @@ class DateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($d1->ymd, $d2->ymd);
         $this->assertEquals($d1->format('Y-m-d'), $d2->toDate('-'));
     }
+
+    /**
+     * @test
+     */
+    function createDate()
+    {
+        $dt = DateTime::createDate('2015', '3', '28', '12', '23', '34');
+        $this->assertEquals('2015-03-28 12:23:34', $dt->format('Y-m-d H:i:s'));
+    }
+
+    /**
+     * @test
+     */
+    function createEndOfMonth()
+    {
+        $dt = DateTime::createEndOfMonth('2015', '3');
+        $this->assertEquals('2015-03-31 00:00:00', $dt->format('Y-m-d H:i:s'));
+
+        $dt = DateTime::createEndOfMonth('2015', '3', true);
+        $this->assertEquals('2015-03-31 23:59:59', $dt->format('Y-m-d H:i:s'));
+    }
 }

@@ -156,4 +156,14 @@ class Compare
     {
         return $this->gt($dt) ? $this->date : $dt;
     }
+
+    /**
+     * Determines if the instance is a leap year
+     *
+     * @return boolean
+     */
+    public function leapYear()
+    {
+        return $this->date->format('L') == '1';
+    }
 }

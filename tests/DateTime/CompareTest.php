@@ -111,4 +111,15 @@ class CompareTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($d1->ymd, $d2->ymd);
         $this->assertTrue($d1->is->sameDate($d2));
     }
+
+    /**
+     * @test
+     */
+    function leapYear()
+    {
+        $d1 = DateTime::createDate('2020');
+        $this->assertTrue($d1->is->leapYear());
+        $d2 = DateTime::createDate('2021');
+        $this->assertFalse($d2->is->leapYear());
+    }
 }

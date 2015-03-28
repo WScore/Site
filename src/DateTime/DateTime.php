@@ -106,7 +106,36 @@ class DateTime extends \DateTimeImmutable
         }
         return static::$now;
     }
-    
+
+    /**
+     * @param int $y
+     * @param int $m
+     * @param int $d
+     * @param int $hour
+     * @param int $min
+     * @param int $sec
+     * @return static
+     */
+    public static function createDate($y, $m=1, $d=1, $hour=0, $min=0, $sec=0)
+    {
+        return new static("$y-$m-$d $hour:$min:$sec");
+    }
+
+    /**
+     * @param int  $y
+     * @param int  $m
+     * @param bool $endOfDay
+     * @return static
+     */
+    public static function createEndOfMonth($y, $m, $endOfDay=false)
+    {
+        $dt = new static("$y-$m-01");
+        if($endOfDay) {
+            return new static($dt->format('Y-m-t 23:59:59'));
+        }
+        return new static($dt->format('Y-m-t 00:00:00'));
+    }
+
     // +----------------------------------------------------------------------+
     //  getting properties and output
     // +----------------------------------------------------------------------+
