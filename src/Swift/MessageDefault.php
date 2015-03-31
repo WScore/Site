@@ -18,7 +18,7 @@ class MessageDefault
     /**
      * @var
      */
-    private $reply_to = [];
+    public $reply_to = [];
 
     /**
      * @param Swift_Message $message
@@ -26,13 +26,17 @@ class MessageDefault
     public function __invoke($message)
     {
         foreach($this->from as $from) {
-            $message->setFrom($from[0], $from[1]);
+            if (is_array($from)) {
+                $message->setFrom($from[0], $from[1]);
+            } else {
+                $message->setFrom($from);
+            }
         }
         if($this->return_path) {
             $message->setReturnPath($this->return_path);
         }
         if($this->reply_to) {
-            $message->setReplyTo($$this->reply_to[0], $this->reply_to[1]);
+            $message->setReplyTo($this->reply_to[0], $this->reply_to[1]);
         }
     }
 

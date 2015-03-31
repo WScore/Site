@@ -59,6 +59,8 @@ class Mailer
     }
 
     /**
+     * sends email in text (UTF-8).
+     *
      * @param string   $text
      * @param callable $callable
      * @return int
@@ -69,6 +71,8 @@ class Mailer
     }
 
     /**
+     * sends email in html format.
+     *
      * @param string   $html
      * @param callable $callable
      * @return int
@@ -79,6 +83,10 @@ class Mailer
     }
 
     /**
+     * sends email in ISO2022 encoding (Japanese mail encoding).
+     * must run MailerFactory::goJapaneseIso2022() in prior to
+     * using this method.
+     *
      * @param string   $text
      * @param callable $callable
      * @return int
@@ -95,6 +103,8 @@ class Mailer
     }
 
     /**
+     * sends an email.
+     *
      * @param string      $text
      * @param null|string $type
      * @param callable    $callable
@@ -103,7 +113,7 @@ class Mailer
      */
     private function send($text, $type, $callable, $preCallable=null)
     {
-        $message = Swift_Message::newInstance();
+        $message = $this->message();
         if($preCallable) {
             $preCallable($message);
         }

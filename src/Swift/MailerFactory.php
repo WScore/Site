@@ -11,10 +11,32 @@ use Swift_Plugins_AntiFloodPlugin;
 use Swift_Plugins_ThrottlerPlugin;
 use Swift_Preferences;
 use Swift_SmtpTransport;
+use Swift_Spool;
 use Swift_SpoolTransport;
+use Swift_Transport;
 
 class MailerFactory
 {
+    /**
+     * @param Swift_Spool $spool
+     * @return Mailer
+     */
+    private static function mailerBySpool($spool)
+    {
+        $transport = Swift_SpoolTransport::newInstance($spool);
+        return static::mailerByTransport($transport);
+    }
+
+    /**
+     * @param Swift_Transport $transport
+     * @return Mailer
+     */
+    private static function mailerByTransport($transport)
+    {
+        $mailer    = Swift_Mailer::newInstance($transport);
+        return new Mailer($mailer);
+    }
+
     /**
      * creates a mailer instance that will NOT send.
      *
@@ -23,8 +45,7 @@ class MailerFactory
     public static function forgeNull()
     {
         $transport = Swift_NullTransport::newInstance();
-        $mailer    = Swift_Mailer::newInstance($transport);
-        return new Mailer($mailer);
+        return static::mailerByTransport($transport);
     }
 
     /**
@@ -36,9 +57,7 @@ class MailerFactory
     public static function forgeDumb(&$spool)
     {
         $spool     = new DumbSpool();
-        $transport = Swift_SpoolTransport::newInstance($spool);
-        $mailer    = Swift_Mailer::newInstance($transport);
-        return new Mailer($mailer);
+        return static::mailerBySpool($spool);
     }
 
     /**
@@ -50,9 +69,7 @@ class MailerFactory
     public static function forgeFileSpool($path)
     {
         $spool     = new Swift_FileSpool($path);
-        $transport = Swift_SpoolTransport::newInstance($spool);
-        $mailer    = Swift_Mailer::newInstance($transport);
-        return new Mailer($mailer);
+        return static::mailerBySpool($spool);
     }
 
     /**
@@ -63,8 +80,7 @@ class MailerFactory
     public static function forgePhpMailer()
     {
         $transport = Swift_MailTransport::newInstance();
-        $mailer    = Swift_Mailer::newInstance($transport);
-        return new Mailer($mailer);
+        return static::mailerByTransport($transport);
     }
 
     /**
@@ -89,8 +105,7 @@ class MailerFactory
                 throw new \RuntimeException('cannot start SMPT transport.');
             }
         }
-        $mailer    = Swift_Mailer::newInstance($transport);
-        return new Mailer($mailer);
+        return static::mailerByTransport($transport);
     }
 
     /**
