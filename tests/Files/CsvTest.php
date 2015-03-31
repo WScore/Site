@@ -5,7 +5,7 @@ use WScore\Site\Files\FlyCsv;
 
 require_once(dirname(__DIR__) . '/autoloader.php');
 
-class SwiftTest extends \PHPUnit_Framework_TestCase
+class CsvTest extends \PHPUnit_Framework_TestCase
 {
     function test0()
     {

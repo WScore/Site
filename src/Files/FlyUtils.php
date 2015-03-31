@@ -17,10 +17,6 @@ class FlyUtils
         $fileFp   = is_resource($file) ? $file : fopen($file, 'r+');
         $tempFp   = fopen($tmp_file, 'w+');
         self::convertEncoding($fileFp, $tempFp, $from, $to);
-        while (!feof($fileFp)) {
-            $text = fgets($fileFp);
-            fwrite($tempFp, mb_convert_encoding($text, $to, $from));
-        }
         fclose($fileFp);
         rewind($tempFp);
         fclose($tempFp);

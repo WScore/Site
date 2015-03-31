@@ -1,7 +1,7 @@
 <?php
 namespace WScore\Site\Files;
 
-use Aura\Auth\Adapter\NullAdapter;
+use League\Flysystem\Adapter\NullAdapter;
 use League\Flysystem\Adapter\Ftp;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\CacheInterface;
