@@ -56,10 +56,10 @@ class FlyCsv extends SplFileObject
         if ($this->map) {
             $result = array();
             foreach ($this->map as $col => $key) {
-                if (!isset($data[$col])) {
+                if (!isset($csv[$col])) {
                     throw new RuntimeException("column not defined: " . $col);
                 }
-                $result[$key] = $data[$col];
+                $result[$key] = $csv[$col];
             }
             $csv = $result;
         }
