@@ -19,13 +19,13 @@ class AppCached extends AppBuilder
      * @param callable $closure
      * @return $this
      */
-    public function cache(callable $closure)
+    public function setup(callable $closure)
     {
         $cached = $this->var_dir . '/app.cached';
         if (!$this->debug && file_exists($cached)) {
             return unserialize(\file_get_contents($cached));
         }
-        $this->setup($closure);
+        parent::setup($closure);
         if (!$this->debug) {
             \file_put_contents($cached, serialize($this));
             chmod($cached, 0666);
