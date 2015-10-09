@@ -126,15 +126,12 @@ class AppBuilder
         if (!file_exists($__config)) {
             return null;
         }
-        if (file_exists($__config)) {
-            /** @noinspection PhpUnusedLocalVariableInspection */
-            $app = $this->app;
-            /** @noinspection PhpUnusedLocalVariableInspection */
-            $builder = $this;
-            /** @noinspection PhpIncludeInspection */
-            return include($__config);
-        }
-        return null;
+        /** @noinspection PhpUnusedLocalVariableInspection */
+        $app = $this->app;
+        /** @noinspection PhpUnusedLocalVariableInspection */
+        $builder = $this;
+        /** @noinspection PhpIncludeInspection */
+        return include($__config);
     }
 
     /**
@@ -174,6 +171,6 @@ class AppBuilder
      */
     public function get($key, $default = null)
     {
-        return array_key_exists($key, $this->config_dir) ? $this->config_dir[$key] : $default;
+        return array_key_exists($key, $this->container) ? $this->container[$key] : $default;
     }
 }

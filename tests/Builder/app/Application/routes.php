@@ -6,3 +6,5 @@ use WScore\Site\Builder\AppBuilder;
  */
 
 $builder->set('routes', 'tested');
+
+return 'routed';
