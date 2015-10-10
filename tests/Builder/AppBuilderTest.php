@@ -20,7 +20,7 @@ class AppBuilderTest extends \PHPUnit_Framework_TestCase
     function constructor_sets_directories()
     {
         $builder = new AppBuilder('dir1', 'dir2');
-        $this->assertEquals('dir1', $builder->config_dir);
+        $this->assertEquals('dir1', $builder->app_dir);
         $this->assertEquals('dir2', $builder->var_dir);
     }
 
@@ -31,7 +31,7 @@ class AppBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $builder = AppBuilder::forge('dir1', 'dir2');
         $this->assertEquals('WScore\Site\Builder\AppBuilder', get_class($builder));
-        $this->assertEquals('dir1', $builder->config_dir);
+        $this->assertEquals('dir1', $builder->app_dir);
         $this->assertEquals('dir2', $builder->var_dir);
     }
 
@@ -112,7 +112,7 @@ class AppBuilderTest extends \PHPUnit_Framework_TestCase
     function evaluate_reads_and_returns_value()
     {
         $builder = AppBuilder::forge(__DIR__ . '/app');
-        $this->assertEquals('routed', $builder->evaluate($builder->config_dir.'/Application/routes'));
+        $this->assertEquals('routed', $builder->evaluate($builder->app_dir.'/Application/routes'));
         $this->assertEquals('tested', $builder->get('routes'));
     }
 }

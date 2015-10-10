@@ -18,7 +18,7 @@ class AppBuilder
     /**
      * @var string      main config dir (ex: project-root/app/)
      */
-    public $config_dir;
+    public $app_dir;
 
     /**
      * @var string      var dir (no version control) (ex: project-root/vars)
@@ -47,8 +47,8 @@ class AppBuilder
     public function __construct($config_dir, $var_dir = null)
     {
         // default configuration.
-        $this->config_dir = $config_dir;
-        $this->var_dir    = $var_dir ?: dirname($config_dir) . '/var';
+        $this->app_dir = $config_dir;
+        $this->var_dir = $var_dir ?: dirname($config_dir) . '/var';
     }
 
     /**
@@ -68,6 +68,7 @@ class AppBuilder
     public function setup(callable $callable)
     {
         $callable($this);
+
         return $this;
     }
 
@@ -92,11 +93,12 @@ class AppBuilder
             $env_list = $this->debug ? ['', 'debug'] : [''];
             $env_list = array_merge($env_list, $this->environments);
         }
-        $directory = $this->config_dir . DIRECTORY_SEPARATOR;
+        $directory = $this->app_dir . DIRECTORY_SEPARATOR;
         foreach ($env_list as $env) {
             $file = ($env ? $env . '/' : '') . $config;
             $this->evaluate($directory . $file);
         }
+
         return $this;
     }
 
@@ -116,7 +118,9 @@ class AppBuilder
         $app = $this->app;
         /** @noinspection PhpUnusedLocalVariableInspection */
         $builder = $this;
+
         /** @noinspection PhpIncludeInspection */
+
         return include($__file);
     }
 
@@ -130,8 +134,9 @@ class AppBuilder
     {
         $environments = $this->evaluate($env_file);
         if ($environments !== 1) {
-            $this->environments = (array) $environments;
+            $this->environments = (array)$environments;
         }
+
         return $this;
     }
 
@@ -145,6 +150,7 @@ class AppBuilder
     public function set($key, $value)
     {
         $this->container[$key] = $value;
+
         return $this;
     }
 
@@ -158,5 +164,14 @@ class AppBuilder
     public function get($key, $default = null)
     {
         return array_key_exists($key, $this->container) ? $this->container[$key] : $default;
+    }
+
+    /**
+     * @param string $key
+     * @return bool
+     */    
+    public function has($key)
+    {
+        return array_key_exists($key, $this->container);
     }
 }
