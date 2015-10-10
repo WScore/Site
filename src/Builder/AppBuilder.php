@@ -80,11 +80,11 @@ class AppBuilder
      *   - mail/mail-debug.php
      *   - mail/mail-{$environment}.php
      *
-     * @param string $base
+     * @param string $config
      * @param bool   $envOnly
      * @return $this
      */
-    public function configure($base, $envOnly = false)
+    public function configure($config, $envOnly = false)
     {
         if ($envOnly) {
             $env_list = $this->environments;
@@ -94,36 +94,22 @@ class AppBuilder
         }
         $directory = $this->config_dir . DIRECTORY_SEPARATOR;
         foreach ($env_list as $env) {
-            $file = ($env ? $env . '/' : '') . $base;
-            $this->evaluatePhp($directory . $file);
+            $file = ($env ? $env . '/' : '') . $config;
+            $this->evaluate($directory . $file);
         }
         return $this;
     }
 
     /**
-     * read configuration at $this->config_dir/{$name}.php.
+     * evaluate PHP file at {$__config}.php and returns the value.
      *
-     * @param string $name
+     * @param string $__file
      * @return mixed|null
      */
-    public function evaluate($name)
+    public function evaluate($__file)
     {
-        $file = $this->config_dir . DIRECTORY_SEPARATOR . $name;
-        return $this->evaluatePhp($file);
-    }
-
-    /**
-     * includes a $__config.php file.
-     *
-     * the $__config is an absolute path (without .php extension).
-     *
-     * @param string $__config
-     * @return mixed|null
-     */
-    private function evaluatePhp($__config)
-    {
-        $__config = $__config . '.php';
-        if (!file_exists($__config)) {
+        $__file = $__file . '.php';
+        if (!file_exists($__file)) {
             return null;
         }
         /** @noinspection PhpUnusedLocalVariableInspection */
@@ -131,7 +117,7 @@ class AppBuilder
         /** @noinspection PhpUnusedLocalVariableInspection */
         $builder = $this;
         /** @noinspection PhpIncludeInspection */
-        return include($__config);
+        return include($__file);
     }
 
     /**
@@ -142,7 +128,7 @@ class AppBuilder
      */
     public function loadEnvironment($env_file)
     {
-        $environments = $this->evaluatePhp($env_file);
+        $environments = $this->evaluate($env_file);
         if ($environments !== 1) {
             $this->environments = (array) $environments;
         }

@@ -102,6 +102,7 @@ class AppBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('tested',     $builder->get('only'));
         $this->assertEquals(null, $builder->get('only-local'));
         $this->assertEquals(null, $builder->get('only-tests'));
+        $this->assertEquals('tested', $builder->get('routes'));
         $this->assertEquals('secret key', $builder->get('DB-Key'));
     }
 
@@ -111,7 +112,7 @@ class AppBuilderTest extends \PHPUnit_Framework_TestCase
     function evaluate_reads_and_returns_value()
     {
         $builder = AppBuilder::forge(__DIR__ . '/app');
-        $this->assertEquals('routed', $builder->evaluate('Application/routes'));
+        $this->assertEquals('routed', $builder->evaluate($builder->config_dir.'/Application/routes'));
         $this->assertEquals('tested', $builder->get('routes'));
     }
 }
